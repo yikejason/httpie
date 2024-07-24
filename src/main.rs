@@ -1,15 +1,18 @@
+use anyhow::Result;
 use clap::Parser;
-use httpie::{Opts, SubCommand};
+use httpie::{get, post, Opts, SubCommand};
+use reqwest::{header, Client};
 
-fn main() {
+#[tokio::main]
+async fn main() -> Result<()> {
     let opts = Opts::parse();
-    println!("{:?}", opts);
+    let mut headers = reqwest::header::HeaderMap::new();
+    headers.insert("X-POWERED-BY", "Rust".parse()?);
+    headers.insert(header::USER_AGENT, "Rust Httpie".parse()?);
+    let client = Client::builder().default_headers(headers).build()?;
     match opts.subcommand {
-        SubCommand::Get(get) => {
-            println!("GET request to: {}", get.url);
-        }
-        SubCommand::Post(post) => {
-            println!("POST request to: {}", post.url);
-        }
-    }
+        SubCommand::Get(ref args) => get(client, args).await?,
+        SubCommand::Post(ref args) => post(client, args).await?,
+    };
+    Ok(())
 }
