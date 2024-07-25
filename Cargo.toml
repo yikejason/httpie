@@ -11,4 +11,5 @@ colored = "2.1.0"
 jsonxf = "1.1.1"
 mime = "0.3.17"
 reqwest = { version = "0.12.5", features = ["json"] }
+syntect = "5.2.0"
 tokio = { version = "1.39.1", features = ["rt", "rt-multi-thread", "macros"] }

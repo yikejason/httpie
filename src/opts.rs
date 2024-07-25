@@ -54,7 +54,6 @@ impl FromStr for KvPair {
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
         let mut split = s.split('=');
-        println!("{:?}", split);
         let err = || anyhow!(format!("Failed to parse {}", s));
         Ok(Self {
             k: (split.next().ok_or_else(err)?).to_string(),
