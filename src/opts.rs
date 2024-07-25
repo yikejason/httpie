@@ -30,7 +30,6 @@ pub struct Get {
     pub url: String,
 }
 
-// why? I need to understand this
 fn parse_url(s: &str) -> Result<String> {
     let _url: Url = s.parse()?;
     Ok(s.into())
@@ -44,7 +43,6 @@ pub struct Post {
     pub body: Vec<KvPair>,
 }
 
-// why? add PartialEq
 #[derive(Debug, Clone, PartialEq)]
 pub struct KvPair {
     pub k: String,
@@ -56,6 +54,7 @@ impl FromStr for KvPair {
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
         let mut split = s.split('=');
+        println!("{:?}", split);
         let err = || anyhow!(format!("Failed to parse {}", s));
         Ok(Self {
             k: (split.next().ok_or_else(err)?).to_string(),
